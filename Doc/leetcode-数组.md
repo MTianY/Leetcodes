@@ -1,5 +1,24 @@
 # Leetcode 数组
 
+[TOC]
+
+## 数组基础理论:
+
+[参考文章: 代码随想录-数组理论基础](https://www.programmercarl.com/%E6%95%B0%E7%BB%84%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80.html#%E6%95%B0%E7%BB%84%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80)
+
+总结:
+
+- 数组是存放在连续内存空间上的相同类型数据的集合.
+- 数组下标都是从 0 开始
+- 数组内存空间的地址是连续的, 所以在`删除`或者`增加`元素的时候, 难免要移动其他元素的地址
+- 数组的元素不能删除, 只能覆盖.
+
+/* 1, 3, 5, 6     2 
+   0  1  2  3  
+   
+   
+*/
+
 ## 1. 两数之和
 
 > easy. [leetcode_1_两数之和](https://leetcode.cn/problems/two-sum/)
@@ -290,6 +309,58 @@ public int removeElement(int[] nums, int val) {
        }
    }
    return begin;
+}
+```
+
+## 35. 搜索插入位置
+
+给定一个排序数组和一个目标值, 在数组中找到目标值, 并返回其索引. 如果目标值不存在于数组中, 返回它将会被按顺序插入的位置.
+
+请必须使用时间复杂度为 `O(log n)` 的算法.
+
+示例 1:
+
+```c
+输入: nums = [1,3,5,6], target = 5
+输出: 2
+```
+
+示例 2:
+
+```c
+输入: nums = [1,3,5,6], target = 2
+输出: 1
+```
+
+示例 3:
+
+```c
+输入: nums = [1,3,5,6], target = 7
+输出: 4
+```
+
+#### 解题思路: 二分查找
+
+```java
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        int begin = 0;
+        int end = nums.length;
+        int ret = end;  // 这个位置要传数组长度, 解决 target 大于所有值的情况,即插入位置
+        while (begin < end) {
+            int mid = (begin + end) >> 1;
+            if (nums[mid] < target) {
+                begin = mid + 1;
+            } else if (nums[mid] > target) {
+                end = mid;
+                ret = mid;
+            } else {
+                ret = mid;
+                return mid;
+            }
+        }
+        return ret;
+    }
 }
 ```
 
