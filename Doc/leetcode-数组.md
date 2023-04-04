@@ -419,6 +419,57 @@ class Solution {
 }
 ```
 
+## 108. 将有序数组转换为二叉搜索树
 
+## 118. 杨辉三角
+
+给定一个非负整数 `numRows`, 生成 [杨辉三角] 的前 `numRows` 行.
+
+在 [杨辉三角] 中, 每个数是它左上方和右上方的数的和.
+
+示例 1:
+
+```c
+输入: numRows = 5
+输出: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+```
+
+实例 2:
+
+```c
+输入: numRows = 1
+输出: [[1]]
+```
+
+##### 解题思路:
+
+- 杨辉三角: 每行的一个元素值, 等于其上一行左上角的值加右上角的值.
+- 考虑只有 1 行的情况.
+- 杨辉三角每行数字左右对称, 每行开始及结尾数字均为 1.
+
+```java
+public List<List<Integer>> generate(int numRows) {
+
+   List<List<Integer>> result = new LinkedList<>();
+
+   for (int i = 0; i < numRows; i++) {
+       List<Integer> subList = new LinkedList<>();
+       System.out.println(">>> i = " + i);
+       for (int j = 0; j <= i; j++) {
+           System.out.println("j = " + j);
+           if (j == 0 || j == i) {
+               // 开始及结尾数字均为 1
+               subList.add(1);
+           } else {
+               // 其余数字, 用上一行的左上角和右上角值相加
+               subList.add(result.get(i-1).get(j-1) + result.get(i-1).get(j));
+           }
+       }
+       result.add(subList);
+   }
+
+   return result;
+}
+```
 
 
