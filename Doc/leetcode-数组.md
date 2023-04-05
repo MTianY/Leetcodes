@@ -473,3 +473,127 @@ public List<List<Integer>> generate(int numRows) {
 ```
 
 
+## 119. 杨辉三角 II
+
+给定一个非负索引 `rowIndex`, 返回 [杨辉三角] 的第 `rowIndex` 行. 在 [杨辉三角] 中, 每个数是它左上方和右上方的数的和.
+
+示例 1:
+
+```c
+输入: rowIndex = 3
+输出: [1,3,3,1]
+```
+
+示例 2:
+
+```c
+输入: rowIndex = 0
+输出: [1]
+```
+
+示例 3:
+
+```c
+输入: rowIndex = 1
+输出: [1,1]
+```
+
+#### 解题思路:
+
+杨辉三角另一种. 返回单个行.
+
+注意: 这里第一行的 rowIndex = 0.
+
+```java
+class Solution_119 {
+    public List<Integer> getRow(int rowIndex) {
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        for (int i = 0; i <= rowIndex; i++) {
+            List<Integer> rowList = new ArrayList<>();
+            for (int j = 0; j <= i; j++) {
+                if (j == 0 || j == i) {
+                    rowList.add(1);
+                } else {
+                    rowList.add(result.get(i-1).get(j-1) + result.get(i-1).get(j));
+                }
+            }
+            result.add(rowList);
+        }
+
+        if (rowIndex == 0) {
+            return result.get(0);
+        } else {
+            return result.get(rowIndex);
+        }
+    }
+}
+```
+
+
+## 121. 买卖股票的最佳时机
+
+给定一个数组 `prices`, 它的第 `i` 个元素 `prices[i]` 表示一支给定股票第 `i` 天的价格.
+你只能选择 `某一天` 买入这只股票, 并选择在 `未来的某一个不同的日子` 卖出该股票. 设计一个算法来计算你所能获取的最大利润.
+返回你可以从这笔交易中获取的最大利润. 如果你不能获取任何利润, 返回 `0`;
+
+示例 1:
+
+```c
+输入：[7,1,5,3,6,4]
+输出：5
+解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+```
+
+示例 2:
+
+```c
+输入：prices = [7,6,4,3,1]
+输出：0
+解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
+```
+
+#### 解题思路:
+
+暴力法: (leetcode 提交不通过, 超时...)
+
+```java
+public int maxProfit1(int[] prices) {
+
+   // 最大利润
+   int maxPrice = 0;
+   for (int i = 0; i < prices.length; i++) {
+       System.out.println("i = " + i);
+       for (int j = i + 1; j < prices.length; j++) {
+           maxPrice = Math.max(maxPrice, prices[j] - prices[i]);
+           System.out.println("j = " + j + "; rest = " + maxPrice);
+       }
+   }
+
+   return maxPrice;
+
+}
+```
+
+一次遍历, 找出最低点. 然后用比最低点大的值 减去 最低点的值, 算出利润.
+
+```java
+public int maxProfit(int[] prices) {
+   // 找到历史最低点
+   int minPrice = Integer.MAX_VALUE;
+   // 利润
+   int maxProfit = 0;
+   for (int i = 0; i < prices.length; i++) {
+       if (prices[i] < minPrice) {
+           minPrice = prices[i];
+       } else if (prices[i] - minPrice > maxProfit) {
+           maxProfit = prices[i] - minPrice;
+       }
+   }
+   return maxProfit;
+}
+```
+
+
