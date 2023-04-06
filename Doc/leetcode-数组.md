@@ -671,3 +671,85 @@ class Solution_136 {
 }
 ```
 
+## 217. 存在重复元素
+
+给你一个整数数组`nums`. 如果任一值在数组中出现**至少两次**, 返回`true`. 如果数组中每个元素互不相同, 返回`false`.
+
+示例 1:
+
+```sh
+输入: nums = [1,2,3,1]
+输出: true
+```
+
+示例 2:
+
+```sh
+输入: nums = [1,2,3,4]
+输出: false
+```
+
+示例 3:
+
+```sh
+输入: nums = [1,1,1,3,3,4,3,2,4,2]
+输出: true
+```
+
+#### 解题思路:
+
+**1. HashSet**
+
+- 使用 `HashSet` 数据结构. 遍历数组`nums`, 执行函数`set.add(x)`, 其含义是: 集合中还没有元素的话,返回 true, 有的话返回 false.
+
+```java
+ public boolean containsDuplicate(int[] nums) {
+      Set<Integer> set = new HashSet<>();
+      for (int x : nums) {
+          // set.add 集合中还没有的话,返回 true, 有的话返回 false
+          if (!set.add(x)) {
+              return true;
+          }
+      }
+      return false;
+  }
+```
+
+**2. HashMap**
+
+```java
+public boolean containsDuplicate1(int[] nums) {
+      Map<Integer, Integer> numMap = new HashMap<Integer, Integer>();
+      for (int i = 0; i < nums.length; i++) {
+          if (numMap.containsKey(nums[i])) {
+              Integer v = numMap.get(nums[i]);
+              ++v;
+              numMap.put(nums[i], v);
+          } else {
+              numMap.put(nums[i], 1);
+          }
+          if (numMap.get(nums[i]) > 1) return true;
+      }
+      return false;
+  }
+```
+
+**3. 排序**
+
+- 对数组从小到大排序.
+- 排序后比较相邻两元素是否相同, 如有相同则返回 true.
+
+```java
+public boolean containsDuplicate2(int[] nums) {
+      Arrays.sort(nums);
+      for (int i = 0; i < nums.length-1; i++) {
+          if (nums[i] == nums[i + 1]) {
+              return true;
+          }
+      }
+      return false;
+  }
+```
+
+
+
