@@ -751,5 +751,89 @@ public boolean containsDuplicate2(int[] nums) {
   }
 ```
 
+## 219. 存在重复元素 II
+
+给你一个整数数组`nums`和一个整数`k`, 判断数组中是否存在两个**不同的索引**`i`和`j`, 满足`nums[i] == nums[j]` 且`abs(i-j) <= k`. 如果存在, 返回`true`; 否则, 返回`false`.
+
+示例 1:
+
+```sh
+输入: nums = [1,2,3,1], k = 3
+输出: true
+```
+
+示例 2:
+
+```sh
+输入: nums = [1,0,1,1], k = 1
+输出: true
+```
+
+示例 3:
+
+```sh
+输入: nums = [1,2,3,1,2,3], k = 2
+输出: false
+```
+
+#### 解题思路
+
+**1. 滑动窗口, HashSet**
+
+```java
+public boolean containsNearbyDuplicate3(int[] nums, int k) {
+      Set<Integer> set = new HashSet<>();
+      int length = nums.length;
+      for (int i = 0; i < length; i++) {
+          // 如果 i>k, 则下标 i-k-1 处的元素被移除滑动窗口, 因此将 i-k-1 移除哈希集合.
+          if (i > k) {
+              set.remove(nums[i - k - 1]);
+          }
+          // 判断 nums[i] 是否在哈希集合中, 如果在, 则在同一个滑动窗口中, 返回 ture. 如果不在, 则将其加入哈希集合
+          if (!set.add(nums[i])) {
+              return true;
+          }
+      }
+      return false;
+  }
+```
+
+**2. HashMap**
+
+```java
+public boolean containsNearbyDuplicate2(int[] nums, int k) {
+      Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+      int length = nums.length;
+      for (int i = 0; i < length; i++) {
+          int num = nums[i];
+          if (map.containsKey(num) && Math.abs(i - map.get(num)) <= k) {
+              return true;
+          }
+          map.put(num, i);
+      }
+      return false;
+  }
+```
+
+**3. HashSet**
+
+```java
+public boolean containsNearbyDuplicate(int[] nums, int k) {
+      HashSet<Integer> set = new HashSet<>();
+      for (int i = 0; i < nums.length; i++) {
+          if (set.contains(nums[i])) {
+              return true;
+          }
+          set.add(nums[i]);
+          if (set.size() > k) {
+              set.remove(nums[i - k]);
+          }
+      }
+      return false;
+  }
+```
+
+
+
 
 
