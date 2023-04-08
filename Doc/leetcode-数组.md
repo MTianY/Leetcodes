@@ -833,6 +833,71 @@ public boolean containsNearbyDuplicate(int[] nums, int k) {
   }
 ```
 
+## 283. 移动零
+
+给定一个数组`nums`, 编写一个函数将所有`0`移动到数组的末尾, 同时保持非零元素的相对顺序.
+
+**请注意**, 必须在不复制数组的情况下原地对数组进行操作.
+
+示例 1:
+
+```sh
+输入: nums = [0,1,0,3,12]
+输出: [1,3,12,0,0]
+```
+
+示例 2:
+
+```sh
+输入: nums = [0]
+输出: [0]
+```
+
+**解题思路**
+
+1. 两次遍历
+
+- 两个指针 i,j
+- 第一次遍历时指针`j`用来记录当前有多少`非 0`元素. 遍历时没遇到一个`非 0`元素就将其往数组左边挪, 第一次遍历完后,`j`指针的下标就指向了最后一个`非 0`元素下标
+- 第二次遍历从`j`开始到结束,赋值为`0`
+- 时间复杂度 `O(n)`, 空间复杂度`O(1)`
+
+```java
+public void moveZeroes(int[] nums) {
+      if (nums == null) return;
+      int j = 0;
+      for (int i = 0; i < nums.length; i++) {
+          if (nums[i] != 0) {
+              nums[j++] = nums[i];
+          }
+      }
+      for (int i = j; i < nums.length; i++) {
+          nums[i] = 0;
+      }
+  }
+```
+
+2. 一次遍历
+
+- 从头遍历元素, 定义两个指针 `i`,`j`.
+- 遍历`i`遇到`非 0`元素, 将其与`j`交换元素.
+- 时间复杂度`O(n)`, 空间复杂度`O(1)`.
+
+```java
+public void moveZeroes(int[] nums) {
+      if (nums == null) return;
+      int j = 0;
+      for (int i = 0; i < nums.length; i++) {
+          if (nums[i] != 0) {
+              int temp = nums[i];
+              nums[i] = nums[j];
+              nums[j] = temp;
+              j++;
+          }
+      }
+  }
+```
+
 
 
 
